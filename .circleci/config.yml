@@ -141,7 +141,7 @@ jobs:
       - run:
           name: Add back-end ip to ansible inventory
           command: |
-            instanceIP=$(aws ec2 describe-instances --filters 'Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID:0:7}*' --query 'Reservations[*].Instances[*].{public_ip:PublicIpAddress}' --output text)
+            instanceIP=$(aws ec2 describe-instances --filters 'Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID:0:7}' --query 'Reservations[*].Instances[*].{public_ip:PublicIpAddress}' --output text)
             echo $instanceIP >> .circleci/ansible/inventory.txt
             # TODO - get this from the instance name which is backend-<COMMIT>
       - persist_to_workspace:
