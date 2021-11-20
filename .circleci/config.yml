@@ -141,14 +141,36 @@ jobs:
       - run:
           name: Add back-end ip to ansible inventory
           command: |
-            instanceIP=$(aws ec2 describe-instances --filters "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID:0:7}" --query "Reservations[*].Instances[*].{public_ip:PublicIpAddress}" --output text)
-            echo $instanceIP >> .circleci/ansible/inventory.txt
+            INSTANCE_IP=$(aws ec2 describe-instances --filters "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID:0:7}" --query "Reservations[*].Instances[*].{public_ip:PublicIpAddress}" --output text)
+            echo $INSTANCE_IP >> .circleci/ansible/inventory.txt
             # TODO - get this from the instance name which is backend-<COMMIT>
       - persist_to_workspace:
           root: ~/
           paths:
             - project/.circleci/ansible/inventory.txt
-      # Here's where you will add some code to rollback on failure      
+  
+  # Here's where you will add some code to rollback on failure
+  configure-infrastructure:
+    docker:
+      - image: tomonorimatsumura/centos7-ansible:stable
+    steps:
+      - checkout
+      # TODO Add ssh keys with fingerprint
+
+      - attach_workspace:
+          name: Attach Workspace
+          at: .
+      - run:
+          name: Install dependencies
+          command: |
+            yum install -y tar gzip awscli ansible
+
+      - run:
+          name: Configure server
+          command: |
+            # Your code here
+            exit 1
+      # Here's where you will add some code to rollback on failure     
             
 workflows:
   default:
@@ -169,3 +191,5 @@ workflows:
           #filters:
           #  branches:
           #    only: [test-feature-branch]
+      - configure-infrastructure:
+          requires: [deploy-infrastructure]
