@@ -143,6 +143,7 @@ jobs:
           command: |
             INSTANCE_IP=$(aws ec2 describe-instances --filters "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID:0:7}" --query "Reservations[*].Instances[*].{public_ip:PublicIpAddress}" --output text)
             echo $INSTANCE_IP >> .circleci/ansible/inventory.txt
+            echo $INSTANCE_IP >> .circleci/ansible/instance_host.txt
             echo $INSTANCE_IP
       
       # Save workspace for subsequent jobs (i.e. test)
@@ -150,6 +151,7 @@ jobs:
           root: ~/
           paths:
             - project/.circleci/ansible/inventory.txt
+            - project/.circleci/ansible/instance_host.txt
   
   # Here's where you will add some code to rollback on failure
   configure-infrastructure:
@@ -178,6 +180,8 @@ jobs:
           command: |
             cd .circleci/ansible
             export DEBIAN_FRONTEND=noninteractive
+            INSTANCE_IP=$(cat .circleci/ansible/instance_host.txt)
+            ssh-keyscan $INSTANCE_IP >> ~/.ssh/known_hosts
             ansible-playbook -i inventory.txt configure-server.yml
       # Here's where you will add some code to rollback on failure
 
