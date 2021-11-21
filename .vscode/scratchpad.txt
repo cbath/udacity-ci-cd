@@ -1,24 +1,8 @@
+TASK [wait 600 seconds for target connection to become reachable/usable.] ***********************************************************fatal: [54.226.0.239]: UNREACHABLE! => {"changed": false, "msg": "Failed to connect to the host via ssh: ssh: connect to host 54.226.0.239 port 22: Connection timed out", "unreachable": true}
 
+PLAY RECAP **************************************************************************************************************************54.226.0.239               : ok=0    changed=0    unreachable=1    failed=0    skipped=0    rescued=0    ignored=0   
 
-# How to add ssh finger print
+[root@5acd04fb4966 ansible]# cat inventory.txt
+[web]
+54.226.0.239
 
-e8:92:03:fd:e6:2d:df:65:71:97:7b:5e:fc:ac:25:91
-
-
-
-[WARNING]: provided hosts list is empty, only localhost is available. Note that
-the implicit localhost does not match 'all'
-ERROR! no module/action detected in task.
-
-The error appears to be in '/root/project/.circleci/ansible/configure-server.yml': line 16, column 7, but may
-be elsewhere in the file depending on the exact syntax problem.
-
-The offending line appears to be:
-
-  pre_tasks:
-    - name: "wait 600 seconds for target connection to become reachable/usable."
-      ^ here
-
-Exited with code exit status 4
-
-CircleCI received ex
