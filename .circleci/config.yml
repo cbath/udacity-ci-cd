@@ -143,7 +143,6 @@ jobs:
           command: |
             INSTANCE_IP=$(aws ec2 describe-instances --filters "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID:0:7}" --query "Reservations[*].Instances[*].{public_ip:PublicIpAddress}" --output text)
             echo $INSTANCE_IP >> .circleci/ansible/inventory.txt
-            # TODO - get this from the instance name which is backend-<COMMIT>
       - persist_to_workspace:
           root: ~/
           paths:
@@ -155,11 +154,15 @@ jobs:
       - image: tomonorimatsumura/centos7-ansible:stable
     steps:
       - checkout
-      # TODO Add ssh keys with fingerprint
-
       - attach_workspace:
           name: Attach Workspace
           at: .
+      
+      - add_access_keys:
+          name: Add ssh keys with fingerprint
+          command: |
+            echo "${PEM_UDACITY}" > project/.circleci/ansible/udacity.pem
+
       - run:
           name: Install dependencies
           command: |
@@ -168,8 +171,9 @@ jobs:
       - run:
           name: Configure server
           command: |
-            # Your code here
-            exit 1
+            cd .circleci/ansible
+            ansible-playbook -i inventory.txt configure-server.yml --private-key udacity.pem
+
       # Here's where you will add some code to rollback on failure     
             
 workflows:

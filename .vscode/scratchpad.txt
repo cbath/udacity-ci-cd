@@ -1,24 +1,5 @@
-#!/bin/bash -eo pipefail
-aws cloudformation deploy \
---template-file .circleci/files/backend.yml \
---stack-name "udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}" \
---parameter-overrides ID="${CIRCLE_WORKFLOW_ID:0:7}"  \
---tags project=udapeople
 
 
-Waiting for changeset to be created..
-Waiting for stack create/update to complete
+# How to add ssh finger print
 
-Failed to create/update the stack. Run the following command
-to fetch the list of events leading up to the failure
-aws cloudformation describe-stack-events --stack-name udapeople-backend-c23d273
-
-Exited with code exit status 255
-
-CircleCI received exit code 255
-
-
-// AMI Images
-https://cloud-images.ubuntu.com/locator/ec2/
-
-Fix: You will have to change the AMI ID and KeyPair name in the backend.yml file, as applicable to your AWS account/region, before you push your changes to Github. 
+e8:92:03:fd:e6:2d:df:65:71:97:7b:5e:fc:ac:25:91
