@@ -158,7 +158,7 @@ jobs:
           name: Attach Workspace
           at: .
       
-      - add_access_keys:
+      - run:
           name: Add ssh keys with fingerprint
           command: |
             echo "${PEM_UDACITY}" > project/.circleci/ansible/udacity.pem
