@@ -162,10 +162,10 @@ jobs:
           name: Attach Workspace
           at: ~/
       
-      - run:
+      - add_ssh_keys:
           name: Add ssh keys with fingerprint
-          command: |
-            echo "${PEM_UDACITY}" > ~/project/.circleci/ansible/udacity.pem
+          fingerprints:
+            - "e8:92:03:fd:e6:2d:df:65:71:97:7b:5e:fc:ac:25:91"
 
       - run:
           name: Install dependencies
@@ -176,7 +176,7 @@ jobs:
           name: Configure server
           command: |
             cd .circleci/ansible
-            ansible-playbook -i inventory.txt configure-server.yml --private-key udacity.pem
+            ansible-playbook -i inventory.txt configure-server.yml
 
       # Here's where you will add some code to rollback on failure     
             

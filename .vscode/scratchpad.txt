@@ -6,3 +6,15 @@ PLAY RECAP *********************************************************************
 [web]
 54.226.0.239
 
+
+Backend Instance - 3.83.34.56
+Unamed Instance - 3.87.58.160
+Circle CI - 3.83.34.56
+
+
+
+PLAY [configuration play.] *****************************************************
+
+TASK [wait 600 seconds for target connection to become reachable/usable.] ******
+The authenticity of host '3.83.34.56 (3.83.34.56)' can't be established
+
