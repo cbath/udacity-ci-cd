@@ -1,3 +1,9 @@
+#TODO
+
+- Non-Interactive due to authenticity warning
+- run commands with sudo ansible
+
+
 The authenticity of host '184.73.13.246 (184.73.13.246)' can't be established.
 ECDSA key fingerprint is SHA256:8sB9UEHmmAex2aYo4mc5FcJakC0mQyYKFh7f/m2joOs.  
 Are you sure you want to continue connecting (yes/no/[fingerprint])? ^C [ERROR]: User interrupted execution
