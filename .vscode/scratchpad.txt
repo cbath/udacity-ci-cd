@@ -1,20 +1,10 @@
-TASK [wait 600 seconds for target connection to become reachable/usable.] ***********************************************************fatal: [54.226.0.239]: UNREACHABLE! => {"changed": false, "msg": "Failed to connect to the host via ssh: ssh: connect to host 54.226.0.239 port 22: Connection timed out", "unreachable": true}
-
-PLAY RECAP **************************************************************************************************************************54.226.0.239               : ok=0    changed=0    unreachable=1    failed=0    skipped=0    rescued=0    ignored=0   
-
-[root@5acd04fb4966 ansible]# cat inventory.txt
-[web]
-54.226.0.239
-
-
-Backend Instance - 3.83.34.56
-Unamed Instance - 3.87.58.160
-Circle CI - 3.83.34.56
+The authenticity of host '184.73.13.246 (184.73.13.246)' can't be established.
+ECDSA key fingerprint is SHA256:8sB9UEHmmAex2aYo4mc5FcJakC0mQyYKFh7f/m2joOs.  
+Are you sure you want to continue connecting (yes/no/[fingerprint])? ^C [ERROR]: User interrupted execution
 
 
 
-PLAY [configuration play.] *****************************************************
+TASK [configure-server : upgrade packages] ***************************************************************************************************************************************************************************************************[WARNING]: The value True (type bool) in a string field was converted to 'True' (type string). If this does not look like what you expect, quote the entire value to ensure it does not change.
+fatal: [184.73.13.246]: FAILED! => {"changed": false, "msg": "'/usr/bin/apt-get upgrade --with-new-pkgs ' failed: E: Could not get lock /var/lib/dpkg/lock-frontend - open (11: Resource temporarily unavailable)\nE: Unable to acquire the dpkg frontend lock (/var/lib/dpkg/lock-frontend), is another process using it?\n", "rc": 100, "stdout": "", "stdout_lines": []}
 
-TASK [wait 600 seconds for target connection to become reachable/usable.] ******
-The authenticity of host '3.83.34.56 (3.83.34.56)' can't be established
-
+PLAY RECAP ***********************************************************************************************************************************************************************************************************************************184.73.13.246              : ok=2    changed=2    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0
