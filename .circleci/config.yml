@@ -154,7 +154,7 @@ jobs:
   # Here's where you will add some code to rollback on failure
   configure-infrastructure:
     docker:
-      - image: tomonorimatsumura/centos7-ansible:stable
+      - image: cimg/base:stable
     steps:
       - checkout
       # Reuse the workspace from the build job
@@ -170,7 +170,7 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            yum install -y tar gzip awscli ansible
+            apt-get install -y tar gzip awscli ansible
 
       - run:
           name: Configure server
