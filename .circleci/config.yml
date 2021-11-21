@@ -143,6 +143,8 @@ jobs:
           command: |
             INSTANCE_IP=$(aws ec2 describe-instances --filters "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID:0:7}" --query "Reservations[*].Instances[*].{public_ip:PublicIpAddress}" --output text)
             echo $INSTANCE_IP >> .circleci/ansible/inventory.txt
+      
+      # Save workspace for subsequent jobs (i.e. test)
       - persist_to_workspace:
           root: ~/
           paths:
@@ -154,14 +156,15 @@ jobs:
       - image: tomonorimatsumura/centos7-ansible:stable
     steps:
       - checkout
+      # Reuse the workspace from the build job
       - attach_workspace:
           name: Attach Workspace
-          at: .
+          at: ~/
       
       - run:
           name: Add ssh keys with fingerprint
           command: |
-            echo "${PEM_UDACITY}" > project/.circleci/ansible/udacity.pem
+            echo "${PEM_UDACITY}" > ~/project/.circleci/ansible/udacity.pem
 
       - run:
           name: Install dependencies
