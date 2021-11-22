@@ -156,14 +156,16 @@ jobs:
   # Here's where you will add some code to rollback on failure
   configure-infrastructure:
     docker:
-      - image: amazon/aws-cli
+      - image: centos:centos8
     steps:
       - checkout
       - run:
           name: Install dependencies
           command: |
-            yum update -y && yum install -y tar gzip awscli ansible
-            
+            # yum update -y
+            yum install -y epel-release
+            yum install -y tar gzip ansible
+
       # Reuse the workspace from the build job
       - attach_workspace:
           name: Attach Workspace
