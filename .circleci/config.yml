@@ -156,7 +156,7 @@ jobs:
   # Here's where you will add some code to rollback on failure
   configure-infrastructure:
     docker:
-      - image: amazon/aws-cli
+      - image: centos:centos8
     steps:
       - checkout
       # Reuse the workspace from the build job
