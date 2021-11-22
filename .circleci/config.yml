@@ -156,7 +156,7 @@ jobs:
   # Here's where you will add some code to rollback on failure
   configure-infrastructure:
     docker:
-      - image: circleci/node:13.8.0
+      - image: amazon/aws-cli
     steps:
       - checkout
       # Reuse the workspace from the build job
@@ -173,15 +173,13 @@ jobs:
           name: Install dependencies
           command: |
             yum install -y tar gzip awscli ansible
-            # sudo apt-get update
-            # sudo apt-get install -y tar gzip awscli ansible
 
       - run:
           name: Configure server
           command: |
             cd .circleci/ansible
             # export DEBIAN_FRONTEND=noninteractive
-            # INSTANCE_IP=$(cat .circleci/ansible/instance_host.txt)
+            # INSTANCE_IP=$(cat instance_host.txt)
             # ssh-keyscan $INSTANCE_IP >> ~/.ssh/known_hosts
             ansible-playbook -i inventory.txt configure-server.yml
       # Here's where you will add some code to rollback on failure
