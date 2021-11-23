@@ -141,17 +141,17 @@ jobs:
       - run:
           name: Add back-end ip to ansible inventory
           command: |
-            INSTANCE_IP=$(aws ec2 describe-instances --filters "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID:0:7}" --query "Reservations[*].Instances[*].{public_ip:PublicIpAddress}" --output text)
-            echo $INSTANCE_IP >> .circleci/ansible/inventory.txt
-            echo $INSTANCE_IP >> .circleci/ansible/instance_host.txt
-            echo $INSTANCE_IP
+            BACKEND_IP=$(aws ec2 describe-instances --filters "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID:0:7}" --query "Reservations[*].Instances[*].{public_ip:PublicIpAddress}" --output text)
+            echo $BACKEND_IP >> .circleci/ansible/inventory.txt
+            echo $BACKEND_IP > .circleci/ansible/backend_host.txt
+            echo $BACKEND_IP
       
       # Save workspace for subsequent jobs (i.e. test)
       - persist_to_workspace:
           root: ~/
           paths:
             - project/.circleci/ansible/inventory.txt
-            - project/.circleci/ansible/instance_host.txt
+            - project/.circleci/ansible/backend_host.txt
   
   # Here's where you will add some code to rollback on failure
   configure-infrastructure:
@@ -162,7 +162,6 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            # yum update -y
             yum install -y epel-release
             yum install -y tar gzip ansible
 
@@ -180,17 +179,17 @@ jobs:
           name: Configure server
           command: |
             cd .circleci/ansible
-            # export DEBIAN_FRONTEND=noninteractive
-            # INSTANCE_IP=$(cat instance_host.txt)
-            # ssh-keyscan $INSTANCE_IP >> ~/.ssh/known_hosts
             ansible-playbook -i inventory.txt configure-server.yml
+            
       # Here's where you will add some code to rollback on failure
 
   run-migrations:
     docker:
       - image: circleci/node:13.8.0
     steps:
-      # Checkout code from git
+      - checkout
+      - restore_cache:
+          keys: [backend-build]
       - run:
           name: Run migrations
           command: |
@@ -205,7 +204,69 @@ jobs:
             then
               curl -H "Content-Type: text/plain" -H "token: a2db3c9f-077f-4eda-8d0c-45fbf711e664" --request PUT --data "1" https://api.memstash.io/values/migration_${CIRCLE_WORKFLOW_ID:0:7}
             fi
-     # Here's where you will add some code to rollback on failure          
+     # Here's where you will add some code to rollback on failure 
+  deploy-frontend:
+    docker:
+      - image: amazon/aws-cli
+    steps:
+      - checkout
+      - run:
+          name: Install dependencies
+          command: |
+            yum install -y epel-release
+            yum install -y tar gzip ansible python nodejs npm
+      - attach_workspace:
+          name: Attach Workspace
+          at: ~/
+      - run:
+          name: Get backend url
+          command: |
+            export BACKEND_IP=$(aws ec2 describe-instances --filters "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID:0:7}" --query "Reservations[*].Instances[*].{public_ip:PublicIpAddress}" --output text)
+            export API_URL="http://${BACKEND_IP}:3030"
+            echo "${API_URL}"
+            echo API_URL="http://${BACKEND_IP}:3030" >> frontend/.env
+            cat frontend/.env
+      - run:
+          name: Deploy frontend objects
+          command: |
+            cd frontend
+            npm install
+            npm run build
+            tar -czvf artifact-"${CIRCLE_WORKFLOW_ID:0:7}".tar.gz dist
+            aws s3 cp dist s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7} --recursive
+      # Here's where you will add some code to rollback on failure      
+                    
+  deploy-backend:
+    docker:
+      - image: centos:centos8
+    steps:
+      - checkout
+      - run:
+          name: Install dependencies
+          command: |
+            yum install -y epel-release
+            yum install -y tar gzip ansible nodejs npm
+      - add_ssh_keys:
+          name: Add ssh keys with fingerprint
+          fingerprints:
+            - "e8:92:03:fd:e6:2d:df:65:71:97:7b:5e:fc:ac:25:91"
+      - attach_workspace:
+          name: Attach Workspace
+          at: ~/
+      - run:
+          name: Deploy backend
+          command: |
+            cd backend
+            npm i
+            npm run build
+            cd ..
+            # Zip the directory
+            tar -C backend -czvf artifact.tar.gz .
+            cd .circleci/ansible
+            echo "Contents  of the inventory.txt file is -------"
+            cat inventory.txt
+            ansible-playbook -i inventory.txt deploy-backend.yml
+      # Here's where you will add some code to rollback on failure          
             
 workflows:
   default:
@@ -228,3 +289,9 @@ workflows:
           #    only: [test-feature-branch]
       - configure-infrastructure:
           requires: [deploy-infrastructure]
+      - run-migrations:
+          requires: [configure-infrastructure]
+      - deploy-frontend:
+          requires: [run-migrations]
+      - deploy-backend:
+          requires: [run-migrations]
