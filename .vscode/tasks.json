@@ -1,0 +1,15 @@
+aws ec2 describe-instances --filters "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID:0:7}" --query "Reservations[*].Instances[*].{public_ip:PublicIpAddress}" --output text
+
+
+// Cloud Formation
+aws cloudformation list-stacks
+aws cloudformation delete-stack --stack-name "arn:aws:cloudformation:us-east-1:604691310262:stack/InitialStack/4d465960-43f4-11ec-a482-0e8ae6186b37"
+
+// Multiple
+aws cloudformation list-stacks --query "StackSummaries[*].{stack_id:StackId}" --output text
+stacks=$(aws cloudformation list-stacks --query "StackSummaries[*].{stack_id:StackId}" --output text)
+
+for i in $stacks; do 
+aws cloudformation delete-stack --stack-name $i
+printf "$i"
+done
