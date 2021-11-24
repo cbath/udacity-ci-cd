@@ -201,12 +201,14 @@ jobs:
           # https://stackoverflow.com/questions/11284634/upgrade-node-js-to-the-latest-version-on-mac-os
           name: NPM Audit Fixes
           command: |
+            cd ~/project/backend
             npm audit fix --audit-level=critical --force
             npm audit fix --force
       - run:
           # https://stackoverflow.com/questions/11284634/upgrade-node-js-to-the-latest-version-on-mac-os
           name: NPM Migrations
           command: |
+            cd ~/project/backend
             npm run migrations > migrations_dump.txt
       - run:
           name: Send migration results to memstash
