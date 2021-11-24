@@ -6,8 +6,9 @@ aws cloudformation list-stacks
 aws cloudformation delete-stack --stack-name "arn:aws:cloudformation:us-east-1:604691310262:stack/InitialStack/4d465960-43f4-11ec-a482-0e8ae6186b37"
 
 // Multiple
-aws cloudformation list-stacks --query "StackSummaries[*].{stack_id:StackId}" --output text
-stacks=$(aws cloudformation list-stacks --query "StackSummaries[*].{stack_id:StackId}" --output text)
+aws cloudformation list-stacks --stack-status-filter ROLLBACK_COMPLETE
+aws cloudformation list-stacks --stack-status-filter ROLLBACK_COMPLETE --query "StackSummaries[*].{stack_id:StackId}" --output text
+stacks=$(aws cloudformation list-stacks --stack-status-filter ROLLBACK_COMPLETE --query "StackSummaries[*].{stack_id:StackId}" --output text)
 
 for i in $stacks; do 
 aws cloudformation delete-stack --stack-name $i
