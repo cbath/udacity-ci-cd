@@ -202,7 +202,6 @@ jobs:
           name: NPM Audit Fixes
           command: |
             cd ~/project/backend
-            npm audit fix --audit-level=critical --force
             npm audit fix --force
       - run:
           # https://stackoverflow.com/questions/11284634/upgrade-node-js-to-the-latest-version-on-mac-os
