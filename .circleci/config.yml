@@ -185,13 +185,13 @@ jobs:
 
   run-migrations:
     docker:
-      - image: circleci/node::latest
+      - image: circleci/node:latest
     steps:
       - checkout
       - restore_cache:
           keys: [backend-build]
       - run:
-          # https://javascriptforwp.com/forums/topic/npm-err-code-elifecycle-on-terminal/
+          # https://stackoverflow.com/questions/11284634/upgrade-node-js-to-the-latest-version-on-mac-os
           name: Run migrations
           command: |
             cd backend
