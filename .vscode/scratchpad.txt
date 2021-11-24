@@ -1,30 +1,35 @@
-#TODO
-
-- Non-Interactive due to authenticity warning ()
-        a) https://stackoverflow.com/questions/28461713/how-to-ignore-or-pass-yes-when-the-authenticity-of-host-cant-be-established-i
-                ssh -o StrictHostKeyChecking=no "$user@$host"
-                ~/.ssh/known_hosts
-                echo "54.237.49.115" >> ~/.ssh/known_hosts
-
-- run commands with sudo ansible (differnt AMI)
-
-
-The authenticity of host '184.73.13.246 (184.73.13.246)' can't be established.
-ECDSA key fingerprint is SHA256:8sB9UEHmmAex2aYo4mc5FcJakC0mQyYKFh7f/m2joOs.  
-Are you sure you want to continue connecting (yes/no/[fingerprint])? ^C [ERROR]: User interrupted execution
-
-ssh-keyscan 54.237.49.115 >> ~/.ssh/known_hosts
-
-circleci@431a951656ad:~$ cat ~/.ssh/known_hosts
-github.com ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAq2A7hRGmdnm9tUDbO9IDSwBK6TbQa+PXYPCPy6rbTrTtw7PHkccKrpp0yVhp5HdEIcKr6pLlVDBfOLX9QUsyCOV0wzfjIJNlGEYsdlLJizHhbn2mUjvSAHQqZETYP81eFzLQNnPHt4EVVUh7VfDESU84KezmD5QlWpXLmvU31/yMf+Se8xhHTvKSCZIFImWwoG6mbUoWf9nzpIoaSjB+weqqUUmpaaasXVal72J+UX2B+2RPW3RcT0eOzQgqlJL3RKrTJvdsjE3JEAvGq3lGHSZXy28G3skua2SmVi/w4yCE6gbODqnTWlg7+wC604ydGXA8VJiS5ap43JXiUFFAaQ==
-github.com ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBEmKSENjQEezOmxkZMy7opKgwFB9nkt5YRrYMjNuG5N87uRgg6CLrbo5wAdT/y6v0mKV0U2w0WZ2YB/++Tpockg=
-github.com ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkVzrm0SdG6UOoqKLsabgH5C9okWi0dh2l9GKJl
-bitbucket.org ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAubiN81eDcafrgMeLzaFPsw2kNvEcqTKl/VqLat/MaB33pZy0y3rJZtnqwR2qOOvbwKZYKiEO1O6VqNEBxKvJJelCq0dTXWT5pbO2gDXC6h6QDXCaHo6pOHGPUy+YBaGQRGuSusMEASYiWunYN0vCAI8QaXnWMXNMdFP3jHAJH0eDsoiGnLPBlBp4TNm6rYI74nMzgz3B9IikW4WVK+dc8KZJZWYjAuORU3jc1c/NPskD2ASinf8v3xnfXeukU0sJ5N6m5E8VLjObPEO+mN2t/FZTMZLiFqPWc/ALSqnMnnhwrNi2rbfg/rd/IpL8Le3pSBne8+seeFVBoGqzHM9yXw==
-|1|jJQIdr2hKxQt2dIdTtpY+9ySFRc=|5F70YqdcFhO3/UOGwaTqThtUUDY= ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBEmKSENjQEezOmxkZMy7opKgwFB9nkt5YRrYMjNuG5N87uRgg6CLrbo5wAdT/y6v0mKV0U2w0WZ2YB/++Tpockg=
-
-
-
-TASK [configure-server : upgrade packages] ***************************************************************************************************************************************************************************************************[WARNING]: The value True (type bool) in a string field was converted to 'True' (type string). If this does not look like what you expect, quote the entire value to ensure it does not change.
-fatal: [184.73.13.246]: FAILED! => {"changed": false, "msg": "'/usr/bin/apt-get upgrade --with-new-pkgs ' failed: E: Could not get lock /var/lib/dpkg/lock-frontend - open (11: Resource temporarily unavailable)\nE: Unable to acquire the dpkg frontend lock (/var/lib/dpkg/lock-frontend), is another process using it?\n", "rc": 100, "stdout": "", "stdout_lines": []}
-
-PLAY RECAP ***********************************************************************************************************************************************************************************************************************************184.73.13.246              : ok=2    changed=2    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0
+circleci@1b461daeeb5d:~/project/backend$ cat /home/circleci/.npm/_logs/2021-11-24T15_49_59_361Z-debug.log
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/local/bin/node', '/usr/local/bin/npm', 'run', 'build' ]
+2 info using npm@6.13.6
+3 info using node@v13.8.0
+4 verbose run-script [ 'prebuild', 'build', 'postbuild' ]
+5 info lifecycle glee2@1.0.0~prebuild: glee2@1.0.0
+6 info lifecycle glee2@1.0.0~build: glee2@1.0.0
+7 verbose lifecycle glee2@1.0.0~build: unsafe-perm in lifecycle true
+8 verbose lifecycle glee2@1.0.0~build: PATH: /usr/local/lib/node_modules/npm/node_modules/npm-lifecycle/node-gyp-bin:/home/circleci/project/backend/node_modules/.bin:/usr/local/lib/node_modules/npm/node_modules/npm-lifecycle/node-gyp-bin:/home/circleci/project/backend/node_modules/.bin:/home/circleci/.local/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games
+9 verbose lifecycle glee2@1.0.0~build: CWD: /home/circleci/project/backend
+10 silly lifecycle glee2@1.0.0~build: Args: [ '-c', 'tsc' ]
+11 silly lifecycle glee2@1.0.0~build: Returned: code: 2  signal: null
+12 info lifecycle glee2@1.0.0~build: Failed to exec build script
+13 verbose stack Error: glee2@1.0.0 build: `tsc`
+13 verbose stack Exit status 2
+13 verbose stack     at EventEmitter.<anonymous> (/usr/local/lib/node_modules/npm/node_modules/npm-lifecycle/index.js:332:16)
+13 verbose stack     at EventEmitter.emit (events.js:321:20)
+13 verbose stack     at ChildProcess.<anonymous> (/usr/local/lib/node_modules/npm/node_modules/npm-lifecycle/lib/spawn.js:55:14)
+13 verbose stack     at ChildProcess.emit (events.js:321:20)
+13 verbose stack     at maybeClose (internal/child_process.js:1026:16)
+13 verbose stack     at Process.ChildProcess._handle.onexit (internal/child_process.js:286:5)
+14 verbose pkgid glee2@1.0.0
+15 verbose cwd /home/circleci/project/backend
+16 verbose Linux 4.15.0-1115-aws
+17 verbose argv "/usr/local/bin/node" "/usr/local/bin/npm" "run" "build"
+18 verbose node v13.8.0
+19 verbose npm  v6.13.6
+20 error code ELIFECYCLE
+21 error errno 2
+22 error glee2@1.0.0 build: `tsc`
+22 error Exit status 2
+23 error Failed at the glee2@1.0.0 build script.
+23 error This is probably not a problem with npm. There is likely additional logging output above.
+24 verbose exit [ 2, true ]
