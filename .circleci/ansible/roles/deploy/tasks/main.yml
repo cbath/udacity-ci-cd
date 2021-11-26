@@ -1,27 +1,27 @@
 ---
-- name: "update apt packages."
+- name: Update apt packages
   become: yes
   apt:
     update_cache: yes
 
-- name: "upgrade packages"
+- name: Upgrade Packages
   become: yes
   apt:
     upgrade: yes
 
-- name: remove dependencies that are no longer required
+- name: Remove dependencies that are no longer required
   become: yes
   apt:
     autoremove: yes
 
-- name: "install dependencies."
+- name: Install Dependencies
   become: yes
   apt:
     name: ["nodejs", "npm", "python", "tar"]
     state: latest
     update_cache: yes
 
-- name: "install pm2"
+- name: Install pm2
   become: yes
   npm:
     name: pm2
@@ -32,7 +32,7 @@
 # https://docs.ansible.com/ansible/2.4/copy_module.html
 - name: Copy Backend Artifacts
   copy:
-    src: artifact.tar.gz
+    src: ~/project/artifact.tar.gz
     dest: ~/artifact.tar.gz
     mode: 0400
     
@@ -41,6 +41,7 @@
   unarchive:
     src: ~/artifact.tar.gz
     dest: ~/
+    remote_src: True
 
 - name: Start Application
   shell: |
