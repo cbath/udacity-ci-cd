@@ -227,7 +227,7 @@ jobs:
           name: Install dependencies
           command: |
             yum install -y epel-release
-            yum install -y tar gzip ansible nodejs npm python3
+            yum install -y tar gzip ansible nodejs npm python3 
       - run:
           name: Install AWS CLI
           command: |
@@ -290,7 +290,50 @@ jobs:
             cat inventory.txt
             ansible-playbook -i inventory.txt deploy-backend.yml
       
-      # Here's where you will add some code to rollback on failure          
+      # Here's where you will add some code to rollback on failure
+
+  smoke-test:
+    docker:
+      - image: centos:centos8
+    steps:
+      - checkout
+      - run:
+          name: Install dependencies
+          command: |
+            yum install -y epel-release
+            yum install -y tar gzip nodejs npm curl awscli
+      - attach_workspace:
+          name: Attach Workspace
+          at: ~/
+      - run:
+          name: Get backend url
+          command: |
+             export BACKEND_IP=$(cat .circleci/ansible/backend_host.txt)
+      - run:
+          name: Backend smoke test.
+          command: |
+            # Fetch and prepare the BACKEND_IP env var
+            export API_URL="http://${BACKEND_IP}:3030"
+            echo "${API_URL}"
+            if curl "${API_URL}/api/status" | grep "ok"
+            then
+                return 0
+            else
+                return 1
+            fi
+      - run:
+          name: Frontend smoke test.
+          command: |
+            URL="http://udapeople-${CIRCLE_WORKFLOW_ID:0:7}.s3-website-us-east-1.amazonaws.com/#/employees"            
+            echo ${URL} 
+            if curl -s ${URL} | grep "Welcome"
+            then
+                # Change this to 0 after the job fails
+              return 1
+            else
+              return 1
+            fi
+      # Here's where you will add some code to rollback on failure     
             
 workflows:
   default:
@@ -319,3 +362,5 @@ workflows:
           requires: [run-migrations]
       - deploy-backend:
           requires: [run-migrations]
+      - smoke-test:
+          requires: [deploy-backend, deploy-frontend]
