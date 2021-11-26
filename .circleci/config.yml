@@ -308,11 +308,12 @@ jobs:
       - run:
           name: Get backend url
           command: |
-             export BACKEND_IP=$(cat ~/project/.circleci/ansible/backend_host.txt)
+             
       - run:
           name: Backend smoke test.
           command: |
             # Fetch and prepare the BACKEND_IP env var
+            export BACKEND_IP=$(cat ~/project/.circleci/ansible/backend_host.txt)
             export API_URL="http://${BACKEND_IP}:3030"
             echo "${API_URL}"
             if curl "${API_URL}/api/status" | grep "ok"
