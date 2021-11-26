@@ -308,7 +308,7 @@ jobs:
       - run:
           name: Get backend url
           command: |
-             export BACKEND_IP=$(cat .circleci/ansible/backend_host.txt)
+             export BACKEND_IP=$(cat ~/project/.circleci/ansible/backend_host.txt)
       - run:
           name: Backend smoke test.
           command: |
