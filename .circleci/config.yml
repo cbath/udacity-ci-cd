@@ -285,6 +285,7 @@ jobs:
       - run:
           name: Deploy backend
           command: |
+            export ANSIBLE_HOST_KEY_CHECKING=False
             cd .circleci/ansible
             echo "Contents  of the inventory.txt file is -------"
             cat inventory.txt
@@ -304,11 +305,7 @@ jobs:
             yum install -y tar gzip nodejs npm curl awscli
       - attach_workspace:
           name: Attach Workspace
-          at: ~/
-      - run:
-          name: Get backend url
-          command: |
-             
+          at: ~/           
       - run:
           name: Backend smoke test.
           command: |
