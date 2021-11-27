@@ -12,6 +12,7 @@ commands:
           when: on_fail
           command: |
             echo "Destroying environment: << parameters.workflow_id >> "
+            aws s3 rm "udapeople-<< parameters.workflow_id >>" --recursive
             aws cloudformation delete-stack --stack-name "udapeople-backend-<< parameters.workflow_id >>"
             aws cloudformation delete-stack --stack-name "udapeople-frontend-<< parameters.workflow_id >>"
     
@@ -353,8 +354,24 @@ jobs:
       - revert-migrations:
             workflow_id: "${CIRCLE_WORKFLOW_ID:0:7}"
 
-        
-            
+  cloudfront-update:
+    docker:
+      - image: amazon/aws-cli
+    steps:
+      - checkout
+      #- run:
+      #    name: Install dependencies
+      #    command: |
+      #      # your code here
+      - run:
+          name: Update cloudfront distribution
+          command: |
+            aws cloudformation deploy \
+            --template-file .circleci/files/cloudfront.yml \
+            --stack-name UdacityCloudFront \
+            --parameter-overrides WorkflowID="udapeople-${CIRCLE_WORKFLOW_ID:0:7}" \
+            --tags project=udapeople
+
 workflows:
   default:
     jobs:
@@ -384,3 +401,5 @@ workflows:
           requires: [run-migrations]
       - smoke-test:
           requires: [deploy-backend, deploy-frontend]
+      - cloudfront-update:
+          requires: [smoke-test]
