@@ -12,7 +12,7 @@ commands:
           when: on_fail
           command: |
             echo "Destroying environment: << parameters.workflow_id >> "
-            aws s3 rm "udapeople-<< parameters.workflow_id >>" --recursive
+            aws s3 rm --recursive "s3://udapeople-<< parameters.workflow_id >>" 
             aws cloudformation delete-stack --stack-name "udapeople-backend-<< parameters.workflow_id >>"
             aws cloudformation delete-stack --stack-name "udapeople-frontend-<< parameters.workflow_id >>"
     
@@ -388,9 +388,9 @@ workflows:
           context: slack-secrets
       - deploy-infrastructure:
           requires: [test-frontend, test-backend, scan-frontend, scan-backend]
-          #filters:
-          #  branches:
-          #    only: [test-feature-branch]
+          filters:
+            branches:
+              only: main
       - configure-infrastructure:
           requires: [deploy-infrastructure]
       - run-migrations:
