@@ -369,8 +369,33 @@ jobs:
             aws cloudformation deploy \
             --template-file .circleci/files/cloudfront.yml \
             --stack-name UdacityCloudFront \
-            --parameter-overrides WorkflowID="udapeople-${CIRCLE_WORKFLOW_ID:0:7}" \
+            --parameter-overrides WorkflowID="${CIRCLE_WORKFLOW_ID:0:7}" \
             --tags project=udapeople
+  cleanup:
+      docker:
+        - image: centos:centos8
+      steps:
+        # Checkout code from git
+        - run:
+            name: Get old stack workflow id
+            command: |
+              export OldWorkflowID=$(aws cloudformation list-exports --query "Exports[?Name==\`WorkflowID\`].Value" --no-paginate --output text)  
+              export STACKS=$(aws cloudformation list-stacks --query "StackSummaries[*].StackName" --stack-status-filter CREATE_COMPLETE --no-paginate --output text)
+              echo CIRCLE_WORKFLOW_ID "${CIRCLE_WORKFLOW_ID:0:7}"
+              echo OldWorkflowID: "${OldWorkflowID}"
+              echo Stack names: "${STACKS[@]}"  
+        - run:
+            name: Remove old stacks and files
+            command: |
+              if [[ "${CIRCLE_WORKFLOW_ID:0:7}" != "${OldWorkflowID}" ]]
+              then
+                echo '------------Removing previous stacks------------'
+                aws s3 rm --recursive "s3://udapeople-${OldWorkflowID}" 
+                aws cloudformation delete-stack --stack-name "udapeople-backend-${OldWorkflowID}"
+                aws cloudformation delete-stack --stack-name "udapeople-frontend-${OldWorkflowID}"
+              else
+                echo '------------Cannot cleanup----------------------'
+              fi
 
 workflows:
   default:
@@ -403,3 +428,5 @@ workflows:
           requires: [deploy-backend, deploy-frontend]
       - cloudfront-update:
           requires: [smoke-test]
+      - cleanup:
+          requires: [cloudfront-update]
