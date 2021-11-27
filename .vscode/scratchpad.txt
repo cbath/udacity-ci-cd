@@ -1,1 +1,17 @@
-notes
+[Tasks]
+
+            name: Get old stack workflow id
+            command: |
+              export OldWorkflowID=$(aws cloudformation list-exports --query "Exports[?Name==\`WorkflowID\`].Value" --no-paginate --output text)  
+              export STACKS=$(aws cloudformation list-stacks --query "StackSummaries[*].StackName" --stack-status-filter CREATE_COMPLETE --no-paginate --output text)
+              echo CIRCLE_WORKFLOW_ID "${CIRCLE_WORKFLOW_ID:0:7}"
+              echo OldWorkflowID: "${OldWorkflowID}"
+              echo Stack names: "${STACKS[@]}"  
+
+
+
+goodstacks=$(aws cloudformation list-stacks --stack-status-filter CREATE_COMPLETE  --query "StackSummaries[*].{stack_id:StackId}" --output text)
+allstacks=$(aws cloudformation list-stacks --stack-status-filter CREATE_COMPLETE  --query "StackSummaries[*].{stack_id:StackName}" --output text)
+
+
+current:

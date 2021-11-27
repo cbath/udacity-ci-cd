@@ -384,9 +384,6 @@ jobs:
               echo CIRCLE_WORKFLOW_ID "${CIRCLE_WORKFLOW_ID:0:7}"
               echo OldWorkflowID: "${OldWorkflowID}"
               echo Stack names: "${STACKS[@]}"  
-        - run:
-            name: Remove old stacks and files
-            command: |
               if [[ "${CIRCLE_WORKFLOW_ID:0:7}" != "${OldWorkflowID}" ]]
               then
                 echo '------------Removing previous stacks------------'
