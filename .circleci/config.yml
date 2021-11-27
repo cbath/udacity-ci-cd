@@ -373,7 +373,7 @@ jobs:
             --tags project=udapeople
   cleanup:
       docker:
-        - image: centos:centos8
+        - image: amazon/aws-cli
       steps:
         # Checkout code from git
         - run:
