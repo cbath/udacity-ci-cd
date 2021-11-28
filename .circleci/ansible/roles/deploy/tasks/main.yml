@@ -29,6 +29,13 @@
     production: yes
     state: present
 
+- name: Create backend directory
+  become: yes
+  file:
+    path: ~/backend
+    state: directory
+    mode: 0755
+
 # https://docs.ansible.com/ansible/2.4/copy_module.html
 - name: Copy Backend Artifacts
   copy:
@@ -47,6 +54,7 @@
   shell: |
     cd ~/backend
     npm install
+    npm audit fix --force
     pm2 stop default
     pm2 start npm -- run start
     cd dist
