@@ -5,7 +5,7 @@ aws ec2 describe-instances --filters "Name=tag:Name,Values=backend-${CIRCLE_WORK
 aws cloudformation list-stacks
 aws cloudformation delete-stack --stack-name "arn:aws:cloudformation:us-east-1:604691310262:stack/InitialStack/4d465960-43f4-11ec-a482-0e8ae6186b37"
 
-// Multiple
+// Multiple Stacks
 aws cloudformation list-stacks --stack-status-filter ROLLBACK_COMPLETE
 aws cloudformation list-stacks --stack-status-filter ROLLBACK_COMPLETE --query "StackSummaries[*].{stack_id:StackId}" --output text
 badstacks=$(aws cloudformation list-stacks --stack-status-filter ROLLBACK_COMPLETE --query "StackSummaries[*].{stack_id:StackId}" --output text)
@@ -13,5 +13,14 @@ goodstacks=$(aws cloudformation list-stacks --stack-status-filter CREATE_COMPLET
 
 for i in $goodstacks; do 
 aws cloudformation delete-stack --stack-name $i
-printf "$i"
+printf "$i \n"
+done
+
+
+// S3 Buckets
+buckets=$(aws s3api list-buckets --query "Buckets[].Name" --output text)
+
+for i in $buckets; do 
+aws s3 rm --recursive  s3://$i 
+printf "$i \n"
 done
