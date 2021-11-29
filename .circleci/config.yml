@@ -346,7 +346,7 @@ jobs:
       - run:
           name: Backend smoke test.
           command: |
-            # Fetch and prepare the BACKEND_IP env var
+            # Fetch and prepare the BACKEND_IP env var (https://aws.amazon.com/getting-started/hands-on/create-connect-postgresql-db/)
             export BACKEND_IP=$(cat ~/project/.circleci/ansible/backend_host.txt)
             export API_URL="http://${BACKEND_IP}:3030"
             echo "${API_URL}"

@@ -3,167 +3,23 @@ curl http://54.91.132.218:3030/api/status
 [help]
 https://knowledge.udacity.com/questions/749346
 
-[pm logs]
-ubuntu@ip-172-31-81-2:~$ pm2 logs
+[debugging]
+pm2 logs
+curl localhost:3030/api/status
+netstat -an|grep 3030
 
-[TAILING] Tailing last 15 lines for [all] processes (change the value with --lines option)
-/home/ubuntu/.pm2/pm2.log last 15 lines:
-PM2        | 2021-11-28T06:18:09: PM2 log: App [main:1] exited with code [1] via signal [SIGINT]
-PM2        | 2021-11-28T06:18:09: PM2 log: App [main:1] starting in -fork mode-
-PM2        | 2021-11-28T06:18:09: PM2 log: App [main:1] online
-PM2        | 2021-11-28T06:18:10: PM2 log: App [main:1] exited with code [1] via signal [SIGINT]
-PM2        | 2021-11-28T06:18:10: PM2 log: App [main:1] starting in -fork mode-
-PM2        | 2021-11-28T06:18:10: PM2 log: App [main:1] online
-PM2        | 2021-11-28T06:18:11: PM2 log: App [main:1] exited with code [1] via signal [SIGINT]
-PM2        | 2021-11-28T06:18:11: PM2 log: App [main:1] starting in -fork mode-
-PM2        | 2021-11-28T06:18:11: PM2 log: App [main:1] online
-PM2        | 2021-11-28T06:18:12: PM2 log: App [npm:0] exited with code [1] via signal [SIGINT] 
-PM2        | 2021-11-28T06:18:12: PM2 log: App [npm:0] starting in -fork mode-
-PM2        | 2021-11-28T06:18:12: PM2 log: App [npm:0] online
-PM2        | 2021-11-28T06:18:14: PM2 log: App [main:1] exited with code [1] via signal [SIGINT]
-PM2        | 2021-11-28T06:18:14: PM2 log: App [main:1] starting in -fork mode-
-PM2        | 2021-11-28T06:18:14: PM2 log: App [main:1] online
+[SQL WorkBench]
+jdbc:postgresql://database-1.cosq0dt7fcnn.us-east-1.rds.amazonaws.com:5432/database-1
 
-/home/ubuntu/.pm2/logs/main-out.log last 15 lines:
-/home/ubuntu/.pm2/logs/npm-out.log last 15 lines:
-0|npm      | > glee2@1.0.0 start /home/ubuntu/backend
-0|npm      | > ts-node -r tsconfig-paths/register -r dotenv/config src/main.ts
-0|npm      | 
-0|npm      | 
-0|npm      | > glee2@1.0.0 start /home/ubuntu/backend
-0|npm      | > ts-node -r tsconfig-paths/register -r dotenv/config src/main.ts
-0|npm      | 
-0|npm      | 
-0|npm      | > glee2@1.0.0 start /home/ubuntu/backend
-0|npm      | > ts-node -r tsconfig-paths/register -r dotenv/config src/main.ts
-0|npm      | 
-0|npm      | 
-0|npm      | > glee2@1.0.0 start /home/ubuntu/backend
-0|npm      | > ts-node -r tsconfig-paths/register -r dotenv/config src/main.ts
-0|npm      | 
-
-/home/ubuntu/.pm2/logs/npm-error.log last 15 lines:
-0|npm      |     at Object.<anonymous> (/home/ubuntu/backend/node_modules/@nestjs/swagger/dist/swagger-explorer.js:8:30)
-0|npm      |     at Module._compile (internal/modules/cjs/loader.js:778:30)
-0|npm      |     at Object.Module._extensions..js (internal/modules/cjs/loader.js:789:10)
-0|npm      |     at Module.load (internal/modules/cjs/loader.js:653:32)
-0|npm      |     at tryModuleLoad (internal/modules/cjs/loader.js:593:12)
-0|npm      | npm ERR! code ELIFECYCLE
-0|npm      | npm ERR! errno 1
-0|npm      | npm ERR! glee2@1.0.0 start: `ts-node -r tsconfig-paths/register -r dotenv/config src/main.ts`
-0|npm      | npm ERR! Exit status 1
-0|npm      | npm ERR!
-0|npm      | npm ERR! Failed at the glee2@1.0.0 start script.
-0|npm      | npm ERR! This is probably not a problem with npm. There is likely additional logging output above.
-0|npm      | 
-0|npm      | npm ERR! A complete log of this run can be found in:
-0|npm      | npm ERR!     /home/ubuntu/.npm/_logs/2021-11-28T06_18_09_442Z-debug.log
-
-/home/ubuntu/.pm2/logs/main-error.log last 15 lines:
-1|main     |     at Module.load (internal/modules/cjs/loader.js:653:32)
-1|main     |     at tryModuleLoad (internal/modules/cjs/loader.js:593:12)
-1|main     |     at Function.Module._load (internal/modules/cjs/loader.js:585:3)
-1|main     |     at Module.require (internal/modules/cjs/loader.js:692:17) code: 'MODULE_NOT_FOUND' }
-1|main     | { Error: Cannot find module '@nestjs/core/router/route-path-factory'
-1|main     |     at Function.Module._resolveFilename (internal/modules/cjs/loader.js:636:15)
-1|main     |     at Module.Hook._require.Module.require (/usr/local/lib/node_modules/pm2/node_modules/require-in-the-middle/index.js:61:29)
-1|main     |     at require (internal/modules/cjs/helpers.js:25:18)
-1|main     |     at Object.<anonymous> (/home/ubuntu/backend/node_modules/@nestjs/swagger/dist/swagger-explorer.js:8:30)
-1|main     |     at Module._compile (internal/modules/cjs/loader.js:778:30)
-1|main     |     at Object.Module._extensions..js (internal/modules/cjs/loader.js:789:10)
-1|main     |     at Module.load (internal/modules/cjs/loader.js:653:32)
-1|main     |     at tryModuleLoad (internal/modules/cjs/loader.js:593:12)
-1|main     |     at Function.Module._load (internal/modules/cjs/loader.js:585:3)
-1|main     |     at Module.require (internal/modules/cjs/loader.js:692:17) code: 'MODULE_NOT_FOUND' }
-
-0|npm  | > glee2@1.0.0 start /home/ubuntu/backend
-0|npm  | > ts-node -r tsconfig-paths/register -r dotenv/config src/main.ts
-1|main | { Error: Cannot find module '@nestjs/core/router/route-path-factory'
-1|main |     at Function.Module._resolveFilename (internal/modules/cjs/loader.js:636:15)
-1|main |     at Module.Hook._require.Module.require (/usr/local/lib/node_modules/pm2/node_modules/require-in-the-middle/index.js:61:29)
-1|main |     at require (internal/modules/cjs/helpers.js:25:18)
-1|main |     at Object.<anonymous> (/home/ubuntu/backend/node_modules/@nestjs/swagger/dist/swagger-explorer.js:8:30)
-1|main |     at Module._compile (internal/modules/cjs/loader.js:778:30)
-1|main |     at Object.Module._extensions..js (internal/modules/cjs/loader.js:789:10)
-1|main |     at Module.load (internal/modules/cjs/loader.js:653:32)
-1|main |     at tryModuleLoad (internal/modules/cjs/loader.js:593:12)
-1|main |     at Function.Module._load (internal/modules/cjs/loader.js:585:3)
-1|main |     at Module.require (internal/modules/cjs/loader.js:692:17) code: 'MODULE_NOT_FOUND' }
-PM2      | App [main:1] exited with code [1] via signal [SIGINT]
-PM2      | App [main:1] starting in -fork mode-
-PM2      | App [main:1] online
-0|npm    | Error: Cannot find module '@nestjs/core/router/route-path-factory'
-0|npm    |     at Function.Module._resolveFilename (internal/modules/cjs/loader.js:636:15)
-0|npm    |     at Function.Module._resolveFilename (/home/ubuntu/backend/node_modules/tsconfig-paths/lib/register.js:75:40)       
-0|npm    |     at Function.Module._load (internal/modules/cjs/loader.js:562:25)
-0|npm    |     at Module.require (internal/modules/cjs/loader.js:692:17)
-0|npm    |     at require (internal/modules/cjs/helpers.js:25:18)
-0|npm    |     at Object.<anonymous> (/home/ubuntu/backend/node_modules/@nestjs/swagger/dist/swagger-explorer.js:8:30)
-0|npm    |     at Module._compile (internal/modules/cjs/loader.js:778:30)
-0|npm    |     at Object.Module._extensions..js (internal/modules/cjs/loader.js:789:10)
-0|npm    |     at Module.load (internal/modules/cjs/loader.js:653:32)
-0|npm    |     at tryModuleLoad (internal/modules/cjs/loader.js:593:12)
-0|npm    | npm
-0|npm    | 
-0|npm    | ERR!
-0|npm    | 
-0|npm    | code
-0|npm    |  ELIFECYCLE
-0|npm    | npm
-0|npm    | 
-0|npm    | ERR!
-0|npm    | 
-0|npm    | errno 1
-0|npm    | npm ERR! glee2@1.0.0 start: `ts-node -r tsconfig-paths/register -r dotenv/config src/main.ts`
-0|npm    | npm ERR! Exit status 1
-0|npm    | npm ERR!
-0|npm    | npm ERR! Failed at the glee2@1.0.0 start script.
-0|npm    | npm ERR! This is probably not a problem with npm. There is likely additional logging output above.
-1|main   | { Error: Cannot find module '@nestjs/core/router/route-path-factory'
-1|main   |     at Function.Module._resolveFilename (internal/modules/cjs/loader.js:636:15)
-1|main   |     at Module.Hook._require.Module.require (/usr/local/lib/node_modules/pm2/node_modules/require-in-the-middle/index.js:61:29)
-1|main   |     at require (internal/modules/cjs/helpers.js:25:18)
-1|main   |     at Object.<anonymous> (/home/ubuntu/backend/node_modules/@nestjs/swagger/dist/swagger-explorer.js:8:30)
-1|main   |     at Module._compile (internal/modules/cjs/loader.js:778:30)
-1|main   |     at Object.Module._extensions..js (internal/modules/cjs/loader.js:789:10)
-1|main   |     at Module.load (internal/modules/cjs/loader.js:653:32)
-1|main   |     at tryModuleLoad (internal/modules/cjs/loader.js:593:12)
-1|main   |     at Function.Module._load (internal/modules/cjs/loader.js:585:3)
-1|main   |     at Module.require (internal/modules/cjs/loader.js:692:17) code: 'MODULE_NOT_FOUND' }
-PM2      | App [main:1] exited with code [1] via signal [SIGINT]
-PM2      | App [main:1] starting in -fork mode-
-PM2      | App [main:1] online
-1|main   | { Error: Cannot find module '@nestjs/core/router/route-path-factory'
-1|main   |     at Function.Module._resolveFilename (internal/modules/cjs/loader.js:636:15)
-1|main   |     at Module.Hook._require.Module.require (/usr/local/lib/node_modules/pm2/node_modules/require-in-the-middle/index.js:61:29)
-1|main   |     at require (internal/modules/cjs/helpers.js:25:18)
-1|main   |     at Object.<anonymous> (/home/ubuntu/backend/node_modules/@nestjs/swagger/dist/swagger-explorer.js:8:30)
-1|main   |     at Module._compile (internal/modules/cjs/loader.js:778:30)
-1|main   |     at Object.Module._extensions..js (internal/modules/cjs/loader.js:789:10)
-1|main   |     at Module.load (internal/modules/cjs/loader.js:653:32)
-1|main   |     at tryModuleLoad (internal/modules/cjs/loader.js:593:12)
-1|main   |     at Function.Module._load (internal/modules/cjs/loader.js:585:3)
-1|main   |     at Module.require (internal/modules/cjs/loader.js:692:17) code: 'MODULE_NOT_FOUND' }
-PM2      | App [main:1] exited with code [1] via signal [SIGINT]
-PM2      | App [main:1] starting in -fork mode-
-PM2      | App [main:1] online
-1|main   | { Error: Cannot find module '@nestjs/core/router/route-path-factory'
-1|main   |     at Function.Module._resolveFilename (internal/modules/cjs/loader.js:636:15)
-1|main   |     at Module.Hook._require.Module.require (/usr/local/lib/node_modules/pm2/node_modules/require-in-the-middle/index.js:61:29)
-1|main   |     at require (internal/modules/cjs/helpers.js:25:18)
-1|main   |     at Object.<anonymous> (/home/ubuntu/backend/node_modules/@nestjs/swagger/dist/swagger-explorer.js:8:30)
-1|main   |     at Module._compile (internal/modules/cjs/loader.js:778:30)
-1|main   |     at Object.Module._extensions..js (internal/modules/cjs/loader.js:789:10)
-1|main   |     at Module.load (internal/modules/cjs/loader.js:653:32)
-1|main   |     at tryModuleLoad (internal/modules/cjs/loader.js:593:12)
-1|main   |     at Function.Module._load (internal/modules/cjs/loader.js:585:3)
-1|main   |     at Module.require (internal/modules/cjs/loader.js:692:17) code: 'MODULE_NOT_FOUND' }_FOUND' }
-PM2      | App [main:1] exited with code [1] via signal [SIGINT]
-PM2      | App [main:1] starting in -fork mode-
-PM2      | App [main:1] online
-0|npm    | npm ERR! A complete log of this run can be found in:
-0|npm    | npm ERR!     /home/ubuntu/.npm/_logs/2021-11-28T06_18_17_342Z-debug.log        
-PM2      | App [npm:0] exited with code [1] via signal [SIGINT]
-PM2      | App [npm:0] starting in -fork mode-
-PM2      | App [npm:0] online
-^C
+[connection details]
+ubuntu@ip-172-31-82-135:~/backend$ cat .env
+ENVIRONMENT=production
+NODE_ENV=production
+TYPEORM_CONNECTION=postgres
+TYPEORM_MIGRATIONS_DIR=./src/migrations
+TYPEORM_ENTITIES=./src/modules/domain/**/*.entity.ts
+TYPEORM_MIGRATIONS=./src/migrations/*.ts
+TYPEORM_HOST=database-1.cosq0dt7fcnn.us-east-1.rds.amazonaws.com
+TYPEORM_PORT=5432
+TYPEORM_USERNAME=cbath
+TYPEORM_PASSWORD=Unlock()0
