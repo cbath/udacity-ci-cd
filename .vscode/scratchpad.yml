@@ -16,3 +16,5 @@
             tar -C backend -czvf artifact.tar.gz .
             cd /root/project/.circleci/ansible
             ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i inventory.txt deploy-backend.yml
+
+

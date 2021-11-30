@@ -239,46 +239,36 @@ jobs:
             then
               curl -H "Content-Type: text/plain" -H "token: a2db3c9f-077f-4eda-8d0c-45fbf711e664" --request PUT --data "1" https://api.memstash.io/values/migration_${CIRCLE_WORKFLOW_ID:0:7}
             fi
-     # Here's where you will add some code to rollback on failure 
      
-  deploy-frontend:
-    docker:
-      - image: centos:centos8
-    steps:
-      - checkout
-      - run:
-          name: Install dependencies
-          command: |
-            yum install -y epel-release
-            yum install -y tar gzip ansible nodejs npm python3 
-      - run:
-          name: Install AWS CLI
-          command: |
-            yum install awscli -y
-            #curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-            #unzip awscliv2.zip
-            #./aws/install
-      - attach_workspace:
-          name: Attach Workspace
-          at: ~/
-      - run:
-          name: Get backend url
-          command: |
-            export BACKEND_IP=$(aws ec2 describe-instances --filters "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID:0:7}" --query "Reservations[*].Instances[*].{public_ip:PublicIpAddress}" --output text)
-            export API_URL="http://${BACKEND_IP}:3030"
-            echo "${API_URL}"
-            echo API_URL="http://${BACKEND_IP}:3030" >> frontend/.env
-            cat frontend/.env
-      - run:
-          name: Deploy frontend objects to S3
-          command: |
-            cd frontend
-            npm install
-            npm run build
-            tar -czvf artifact-"${CIRCLE_WORKFLOW_ID:0:7}".tar.gz dist
-            aws s3 cp dist s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7} --recursive
-      # Here's where you will add some code to rollback on failure      
-                    
+    run-migrations2:
+        executor: node
+        steps:
+          - checkout
+          - attach_workspace:
+              at: .
+          - run:
+              name: Install AWS CLI dependencies
+              working_directory: /tmp
+              command: |
+                sudo apt-get update && sudo apt-get install -yy less
+                curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+                unzip awscliv2.zip
+                sudo ./aws/install
+          - run:
+              name: Run migrations
+              no_output_timeout: 30m
+              working_directory: ./backend
+              command: |
+                npm install
+                npm run migrations > migration.log
+                export migration_status=$(cat migration.log | grep -c "has been executed successfully")
+                tar -zcvf ~/backend.tar.gz .
+                ls
+          - persist_to_workspace:
+              root: ~/
+              paths:
+                - backend.tar.gz
+                - migration.log
   deploy-backend:
     docker:
       - image: centos:centos8
@@ -327,7 +317,45 @@ jobs:
             echo "Contents  of the inventory.txt file is -------"
             cat inventory.txt
             ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i inventory.txt deploy-backend.yml
-      
+
+  deploy-frontend:
+    docker:
+      - image: centos:centos8
+    steps:
+      - checkout
+      - run:
+          name: Install dependencies
+          command: |
+            yum install -y epel-release
+            yum install -y tar gzip ansible nodejs npm python3 
+      - run:
+          name: Install AWS CLI
+          command: |
+            yum install awscli -y
+            #curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+            #unzip awscliv2.zip
+            #./aws/install
+      - attach_workspace:
+          name: Attach Workspace
+          at: ~/
+      - run:
+          name: Get backend url
+          command: |
+            export BACKEND_IP=$(aws ec2 describe-instances --filters "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID:0:7}" --query "Reservations[*].Instances[*].{public_ip:PublicIpAddress}" --output text)
+            export API_URL="http://${BACKEND_IP}:3030"
+            echo "${API_URL}"
+            echo API_URL="http://${BACKEND_IP}:3030" >> frontend/.env
+            cat frontend/.env
+      - run:
+          name: Deploy frontend objects to S3
+          command: |
+            cd frontend
+            npm install
+            npm run build
+            tar -czvf artifact-"${CIRCLE_WORKFLOW_ID:0:7}".tar.gz dist
+            aws s3 cp dist s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7} --recursive
+      # Here's where you will add some code to rollback on failure      
+                         
       # Here's where you will add some code to rollback on failure
 
   smoke-test:
@@ -424,7 +452,8 @@ workflows:
           requires: [build-backend]
           context: slack-secrets
       - deploy-infrastructure:
-          requires: [test-frontend, test-backend, scan-frontend, scan-backend]
+          #requires: [test-frontend, test-backend, scan-frontend, scan-backend]
+          requires: [build-frontend, build-backend]
           filters:
             branches:
               only: main
