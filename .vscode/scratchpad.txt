@@ -11,15 +11,26 @@ netstat -an|grep 3030
 [SQL WorkBench]
 jdbc:postgresql://database-1.cosq0dt7fcnn.us-east-1.rds.amazonaws.com:5432/database-1
 
-[connection details]
-ubuntu@ip-172-31-82-135:~/backend$ cat .env
-ENVIRONMENT=production
-NODE_ENV=production
-TYPEORM_CONNECTION=postgres
-TYPEORM_MIGRATIONS_DIR=./src/migrations
-TYPEORM_ENTITIES=./src/modules/domain/**/*.entity.ts
-TYPEORM_MIGRATIONS=./src/migrations/*.ts
-TYPEORM_HOST=database-1.cosq0dt7fcnn.us-east-1.rds.amazonaws.com
-TYPEORM_PORT=5432
-TYPEORM_USERNAME=cbath
-TYPEORM_PASSWORD=Unlock()0
+[to fix]
+
+## Presentation
+Start and complete
+
+## CI/CD
+7) :x: Evidence of deployed and functioning front-end application in an S3 bucket [URL02]
+The frontend URL is not up(screenshot below), we need the S3 URL to be working to review this rubric
+
+9) :x: Evidence of healthy back-end application. [URL04]
+Neither the Backend URL is provided in the submission, nor is the screenshot of the browser with the successful response from http://{BACKEND_URL}:3030/api/status provided in the submission
+
+## Promethius Setup
+1) :x: Evidence of Prometheus Server. [URL05]
+Not provided in the submission:v:
+
+2) :x: Evidence that Prometheus is monitoring memory, CPU and disk usage of EC2 instances. [SCREENSHOT11]
+Not provided in the submission:v:
+
+3) :x: Evidence that Prometheus and AlertManager send alerts when certain conditions exist in the EC2 instance. [SCREENSHOT12]
+Not provided in the submission:v:
+
+Please make sure the IP/DNS present in the Screenshot 11 and 12 should be present in the Prometheus Server instances as well
