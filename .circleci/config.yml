@@ -240,7 +240,7 @@ jobs:
               curl -H "Content-Type: text/plain" -H "token: a2db3c9f-077f-4eda-8d0c-45fbf711e664" --request PUT --data "1" https://api.memstash.io/values/migration_${CIRCLE_WORKFLOW_ID:0:7}
             fi
      
-    run-migrations2:
+    run-migrations-suggested:
         executor: node
         steps:
           - checkout
