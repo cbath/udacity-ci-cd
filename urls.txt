@@ -2,7 +2,8 @@
 https://github.com/cbath/udacity-ci-cd
 
 [URL02 - S3 Bucket]
-https://udapeople-443386b.s3.amazonaws.com/index.html
+http://udapeople-443386b.s3.amazonaws.com/index.html#/employees
+
 [URL03 - Frontend DNS]
 http://di69ry14gqha0.cloudfront.net/#/employees
 
