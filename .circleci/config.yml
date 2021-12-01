@@ -425,7 +425,8 @@ workflows:
           #requires: [build-frontend, build-backend]
           filters:
             branches:
-              only: never-ever-branch
+              #only: never-ever-branch
+              only: main
       - configure-infrastructure:
           requires: [deploy-infrastructure]
       - run-migrations:

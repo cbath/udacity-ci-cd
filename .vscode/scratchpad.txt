@@ -1,31 +1,9 @@
 
-[endpoint debugging]
-curl http://54.91.132.218:3030/api/status
 
-[SQL WorkBench]
-jdbc:postgresql://udapeople-postgres.cosq0dt7fcnn.us-east-1.rds.amazonaws.com:5432/udapeople_postgres   
-
-SELECT datname FROM pg_database;
-SELECT *FROM pg_settings WHERE name = 'port';
-SELECT inet_server_addr();
 
 [to fix]
 
-## Presentation
-Start and complete
-
-## CI/CD
-
-TODO - install node_exporter on backend + update security group
-
 ## Promethius Setup
-1) :x: Evidence of Prometheus Server. [URL05]
-Not provided in the submission:v:
-
-2) :x: Evidence that Prometheus is monitoring memory, CPU and disk usage of EC2 instances. [SCREENSHOT11]
-Not provided in the submission:v:
 
 3) :x: Evidence that Prometheus and AlertManager send alerts when certain conditions exist in the EC2 instance. [SCREENSHOT12]
 Not provided in the submission:v:
-
-Please make sure the IP/DNS present in the Screenshot 11 and 12 should be present in the Prometheus Server instances as well
