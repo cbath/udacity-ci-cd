@@ -25,3 +25,17 @@ for i in $buckets; do
 aws s3 rm --recursive  s3://$i 
 printf "$i \n"
 done
+
+[prometheus]
+prometheus server = ssh -i "udacity.pem" ubuntu@ec2-3-82-189-67.compute-1.amazonaws.com
+node exporter =     ssh -i "udacity.pem" ubuntu@ec2-54-152-191-201.compute-1.amazonaws.com
+dashboard = http://ec2-3-82-189-67.compute-1.amazonaws.com:9090/targets
+prometheus config = /etc/prometheus/prometheus.yml
+
+sudo vi test.txt
+sudo mv test.txt /etc/prometheus/prometheus.yml && sudo systemctl restart prometheus
+
+[node debugging]
+pm2 logs
+curl localhost:3030/api/status
+netstat -an|grep 3030

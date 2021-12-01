@@ -1,9 +1,4 @@
 
-[server debugging]
-pm2 logs
-curl localhost:3030/api/status
-netstat -an|grep 3030
-
 [endpoint debugging]
 curl http://54.91.132.218:3030/api/status
 
@@ -17,6 +12,7 @@ SELECT inet_server_addr();
 [servers]
 postgres = 172.31.75.40
 backend ec2 = 3.87.10.235
+
 
 [to fix]
 
