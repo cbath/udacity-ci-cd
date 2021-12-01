@@ -2,13 +2,13 @@
 https://github.com/cbath/udacity-ci-cd
 
 [URL02 - S3 Bucket]
-https://udapeople-50e8963.s3.amazonaws.com.index.txt
+http://udapeople-6db6841.s3.us-east-1.amazonaws.com/index.html
 
 [URL03 - Frontend DNS]
 http://dl8ksisgut9z8.cloudfront.net/#/employees
 
-[TODO]
-nor is the screenshot of the browser with the successful response from http://{BACKEND_URL}:3030/api/status provided in the submission
+[URL04 - Backend Healthcheck]
+http://ec2-174-129-109-91.compute-1.amazonaws.com:3030/api/status
 
 [Prometheus]
 http://ec2-18-204-202-119.compute-1.amazonaws.com:9090/targets

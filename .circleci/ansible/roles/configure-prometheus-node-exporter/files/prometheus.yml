@@ -1,4 +1,4 @@
-# Prometheus Server 1 - monitor itself
+# /etc/prometheus/prometheus.yml
 global:
   scrape_interval: 15s
   evaluation_interval: 1s
@@ -24,7 +24,7 @@ scrape_configs:
       - targets: ['localhost:9090']
   
   # Monitor static list of sites
-  - job_name: 'node_exporter'
+  - job_name: 'udapeople'
     static_configs:
       - targets: ['ec2-52-23-196-188.compute-1.amazonaws.com:9100']
   

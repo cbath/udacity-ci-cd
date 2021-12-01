@@ -9,22 +9,14 @@ SELECT datname FROM pg_database;
 SELECT *FROM pg_settings WHERE name = 'port';
 SELECT inet_server_addr();
 
-[servers]
-postgres = 172.31.75.40
-backend ec2 = 3.87.10.235
-
-
 [to fix]
 
 ## Presentation
 Start and complete
 
 ## CI/CD
-7) :x: Evidence of deployed and functioning front-end application in an S3 bucket [URL02]
-The frontend URL is not up(screenshot below), we need the S3 URL to be working to review this rubric
 
-9) :x: Evidence of healthy back-end application. [URL04]
-Neither the Backend URL is provided in the submission, nor is the screenshot of the browser with the successful response from http://{BACKEND_URL}:3030/api/status provided in the submission
+TODO - install node_exporter on backend + update security group
 
 ## Promethius Setup
 1) :x: Evidence of Prometheus Server. [URL05]

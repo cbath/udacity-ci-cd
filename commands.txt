@@ -26,6 +26,13 @@ aws s3 rm --recursive  s3://$i
 printf "$i \n"
 done
 
+[postgres]
+SELECT datname FROM pg_database;
+SELECT *FROM pg_settings WHERE name = 'port';
+SELECT inet_server_addr();
+SELECT schema_name FROM information_schema.schemata;
+SELECT nspname FROM pg_catalog.pg_namespace;
+
 [prometheus]
 prometheus server = ssh -i "udacity.pem" ubuntu@ec2-3-82-189-67.compute-1.amazonaws.com
 node exporter =     ssh -i "udacity.pem" ubuntu@ec2-54-152-191-201.compute-1.amazonaws.com
