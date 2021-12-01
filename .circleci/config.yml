@@ -205,7 +205,8 @@ jobs:
             ansible-playbook -i inventory.txt configure-server.yml
             
   run-migrations:
-    executor: node
+    docker:
+      - image: circleci/node:13.8.0
     steps:
       - checkout
       - attach_workspace:
