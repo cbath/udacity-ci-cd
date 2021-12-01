@@ -5,10 +5,10 @@ https://github.com/cbath/udacity-ci-cd
 http://udapeople-6db6841.s3.us-east-1.amazonaws.com/index.html
 
 [URL03 - Frontend DNS]
-http://dl8ksisgut9z8.cloudfront.net/#/employees
+d3ab4gjluy5azy.cloudfront.net
 
 [URL04 - Backend Healthcheck]
 http://ec2-174-129-109-91.compute-1.amazonaws.com:3030/api/status
 
 [Prometheus]
-http://ec2-18-204-202-119.compute-1.amazonaws.com:9090/targets
+http://ec2-3-94-114-134.compute-1.amazonaws.com:9090/targets
