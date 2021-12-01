@@ -1,3 +1,4 @@
+# /etc/prometheus/rules.yml
 groups:
 - name: AllInstances
   rules:

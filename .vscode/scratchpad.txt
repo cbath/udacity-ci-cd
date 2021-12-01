@@ -7,3 +7,7 @@
 
 3) :x: Evidence that Prometheus and AlertManager send alerts when certain conditions exist in the EC2 instance. [SCREENSHOT12]
 Not provided in the submission:v:
+
+
+[Debugging]
+Cross-Origin Request Blocked: The Same Origin Policy disallows reading the remote resource at http://34.239.101.192:3030/api/Employees. (Reason: CORS request did not succeed).

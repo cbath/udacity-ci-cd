@@ -26,12 +26,12 @@ scrape_configs:
   # Monitor static list of sites
   - job_name: 'udapeople'
     static_configs:
-      - targets: ['ec2-52-23-196-188.compute-1.amazonaws.com:9100']
+      - targets: ['ec2-34-239-101-192.compute-1.amazonaws.com:9100']
   
   # Auto-discover ec2 instances
-  - job_name: 'node'
-    ec2_sd_configs:
-      - region: us-east-1
-        access_key: AKIAYZSTJE23FZLFSD4R
-        secret_key: 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
-        port: 9100
+  #- job_name: 'node'
+  #  ec2_sd_configs:
+  #    - region: us-east-1
+  #      access_key: AKIAYZSTJE23FZLFSD4R
+  #      secret_key: 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
+  #      port: 9100

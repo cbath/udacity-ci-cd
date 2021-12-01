@@ -426,7 +426,7 @@ workflows:
           filters:
             branches:
               #only: never-ever-branch
-              only: main
+              only: main-never
       - configure-infrastructure:
           requires: [deploy-infrastructure]
       - run-migrations:
