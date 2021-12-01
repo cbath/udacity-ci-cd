@@ -51,7 +51,7 @@
 - name: Start Application
   shell: |
     npm install
-    npm run migrations
-    npm run build
+    #npm run migrations
+    #npm run build
     pm2 stop default
     pm2 start npm -- start

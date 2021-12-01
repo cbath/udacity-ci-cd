@@ -1,15 +1,22 @@
-curl http://54.91.132.218:3030/api/status
 
-[help]
-https://knowledge.udacity.com/questions/749346
-
-[debugging]
+[server debugging]
 pm2 logs
 curl localhost:3030/api/status
 netstat -an|grep 3030
 
+[endpoint debugging]
+curl http://54.91.132.218:3030/api/status
+
 [SQL WorkBench]
-jdbc:postgresql://database-1.cosq0dt7fcnn.us-east-1.rds.amazonaws.com:5432/database-1
+jdbc:postgresql://udapeople-postgres.cosq0dt7fcnn.us-east-1.rds.amazonaws.com:5432/udapeople_postgres   
+
+SELECT datname FROM pg_database;
+SELECT *FROM pg_settings WHERE name = 'port';
+SELECT inet_server_addr();
+
+[servers]
+postgres = 172.31.75.40
+backend ec2 = 3.87.10.235
 
 [to fix]
 

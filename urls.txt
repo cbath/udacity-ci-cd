@@ -2,7 +2,10 @@
 https://github.com/cbath/udacity-ci-cd
 
 [URL02 - S3 Bucket]
-https://udapeople-50e8963.s3.amazonaws.com
+https://udapeople-50e8963.s3.amazonaws.com.index.txt
 
 [URL03 - Frontend DNS]
 http://dl8ksisgut9z8.cloudfront.net/#/employees
+
+[TODO]
+nor is the screenshot of the browser with the successful response from http://{BACKEND_URL}:3030/api/status provided in the submission
