@@ -205,35 +205,35 @@ jobs:
             ansible-playbook -i inventory.txt configure-server.yml
             
   run-migrations:
-      executor: node
-      steps:
-        - checkout
-        - attach_workspace:
-            at: .
-        - run:
-            name: Install AWS CLI dependencies
-            working_directory: /tmp
-            command: |
-              sudo apt-get update && sudo apt-get install -yy less
-              curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-              unzip awscliv2.zip
-              sudo ./aws/install
-        - run:
-            name: Run migrations
-            no_output_timeout: 30m
-            working_directory: ./backend
-            command: |
-              npm install
-              npm run migrations > migration.log
-              export migration_status=$(cat migration.log | grep -c "has been executed successfully")
-              tar -zcvf ~/backend.tar.gz .
-              ls
-        - persist_to_workspace:
-            root: ~/
-            paths:
-              - backend.tar.gz
-              - migration.log
-        - run:
+    executor: node
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
+      - run:
+          name: Install AWS CLI dependencies
+          working_directory: /tmp
+          command: |
+            sudo apt-get update && sudo apt-get install -yy less
+            curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+            unzip awscliv2.zip
+            sudo ./aws/install
+      - run:
+          name: Run migrations
+          no_output_timeout: 30m
+          working_directory: ./backend
+          command: |
+            npm install
+            npm run migrations > migration.log
+            export migration_status=$(cat migration.log | grep -c "has been executed successfully")
+            tar -zcvf ~/backend.tar.gz .
+            ls
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - backend.tar.gz
+            - migration.log
+      - run:
           name: Send migration results to memstash
           command: |
             if grep -q "has been executed successfully." ~/project/backend/migrations_dump.txt
